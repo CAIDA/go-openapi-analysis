@@ -593,42 +593,22 @@ func (s *Spec) SecurityDefinitionsFor(operation *spec.Operation) map[string]spec
 	return result
 }
 
-// ConsumesFor gets the mediatypes for the operation
+// ConsumesFor gets the mediatypes for the operation (in order)
 func (s *Spec) ConsumesFor(operation *spec.Operation) []string {
 	if len(operation.Consumes) == 0 {
-		cons := make(map[string]struct{}, len(s.spec.Consumes))
-		for _, k := range s.spec.Consumes {
-			cons[k] = struct{}{}
-		}
-
-		return s.structMapKeys(cons)
+		return s.spec.Consumes
 	}
 
-	cons := make(map[string]struct{}, len(operation.Consumes))
-	for _, c := range operation.Consumes {
-		cons[c] = struct{}{}
-	}
-
-	return s.structMapKeys(cons)
+	return operation.Consumes
 }
 
-// ProducesFor gets the mediatypes for the operation
+// ProducesFor gets the mediatypes for the operation (in order)
 func (s *Spec) ProducesFor(operation *spec.Operation) []string {
 	if len(operation.Produces) == 0 {
-		prod := make(map[string]struct{}, len(s.spec.Produces))
-		for _, k := range s.spec.Produces {
-			prod[k] = struct{}{}
-		}
-
-		return s.structMapKeys(prod)
+		return s.spec.Produces
 	}
 
-	prod := make(map[string]struct{}, len(operation.Produces))
-	for _, c := range operation.Produces {
-		prod[c] = struct{}{}
-	}
-
-	return s.structMapKeys(prod)
+	return operation.Produces
 }
 
 func mapKeyFromParam(param *spec.Parameter) string {
